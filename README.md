@@ -82,4 +82,25 @@ The `.env` file allows centralized and secure management of environment variable
 
 ---
 
-This integration of `LoggerManager` and `.env` configuration provides a robust and flexible setup for logging and environmental management, ensuring better observability, security, and ease of use across different environments.
+This integration of `LoggerManager`, `.env` configuration, and clearly defined script roles ensures a robust, modular, and production-ready setup for machine learning workflows.
+
+
+---
+
+## Roles of Key Scripts
+
+### `predict_app.py`
+The `predict_app.py` script serves as the main entry point for the Flask web application. It:
+- Handles user inputs via a web interface.
+- Validates inputs using the `PredictionInputSchema` to ensure data quality.
+- Sends inputs to the `PredictPipeline` for generating predictions.
+- Displays the prediction results or error messages back to the user.
+
+### `launch_host.py`
+The `launch_host.py` script initializes and hosts backend services. It:
+- Serves as the entry point for running asynchronous backend tasks.
+- Facilitates hosting of machine learning pipelines or other infrastructure components.
+- Includes configuration options for deployment and runtime behavior.
+
+
+
