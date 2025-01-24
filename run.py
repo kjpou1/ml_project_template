@@ -4,7 +4,9 @@ from flask import Flask, render_template, request
 from sklearn.preprocessing import StandardScaler
 
 
-from src.pipeline.predict_pipeline import CustomData, PredictPipeline
+from src.models.prediction_input import PredictionInput
+from src.pipeline.predict_pipeline import PredictPipeline
+
 from src.logger_manager import LoggerManager
 
 logging = LoggerManager.get_logger(__name__)
@@ -25,7 +27,7 @@ def predict_datapoint():
     if request.method == "GET":
         return render_template("home.html")
     else:
-        data = CustomData(
+        data = PredictionInput(
             gender=request.form.get("gender"),
             race_ethnicity=request.form.get("ethnicity"),
             parental_level_of_education=request.form.get("parental_level_of_education"),
