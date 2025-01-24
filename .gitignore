@@ -169,3 +169,12 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore CatBoost logs and temporary files
+catboost_info/
+
+# Ignore logs directory
+logs/
+
+# Ignore artifacts directory
+**/artifacts/*
