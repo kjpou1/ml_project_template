@@ -55,7 +55,7 @@ def predict_datapoint():
 
         except ValidationError as e:
             logging.error(f"Validation Error: {e}")
-            return render_template("home.html", error=f"Input validation failed: {e}")
+            return render_template("home.html", error=f"Validation Error: {e.errors()}")
 
         except Exception as e:
             logging.error(f"Prediction Error: {e}")
