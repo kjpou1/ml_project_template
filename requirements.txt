@@ -10,4 +10,5 @@ xgboost
 dill
 pytest
 flask
+pydantic
 -e .
