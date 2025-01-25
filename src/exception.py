@@ -5,10 +5,16 @@ from src.logger_manager import LoggerManager
 logging = LoggerManager.get_logger(__name__)
 
 
-def error_message_detail(error, error_detail: sys):
+def error_message_detail(error, error_detail: sys = None):
     """
     Captures details about the error, including the file name, line number, and error message.
     """
+    if error_detail is None:
+        return f"{error}"
+    exc_info = error_detail.exc_info()
+    if exc_info is None or exc_info[2] is None:
+        return f"{error}"
+
     # Get the traceback object from the error detail
     _, _, exc_tb = error_detail.exc_info()
     # Extract the file name and line number where the error occurred
@@ -26,7 +32,7 @@ class CustomException(Exception):
     including the script name, line number, and error details.
     """
 
-    def __init__(self, error_message, error_detail: sys):
+    def __init__(self, error_message, error_detail: sys = None):
         # Store the original exception
         self.original_exception = error_message
         # Generate the detailed error message
