@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FastHTML Prediction Result</title>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    {% if result %}
+        <p>Predicted Math Score: {{ result }}</p>
+    {% elif error %}
+        <p>Error: {{ error }}</p>
+    {% else %}
+        <p>No result available.</p>
+    {% endif %}
+    <a href="/"><button>Back to Form</button></a>
+</body>
+</html>
