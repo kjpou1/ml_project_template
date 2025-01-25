@@ -306,14 +306,14 @@ The project includes a comprehensive suite of tests to validate the functionalit
 
 3. To run a specific test module, use:
    ```bash
-   PYTHONPATH=$(pwd) pytest -v tests/<test_module_name>.py
+   PYTHONPATH=$(pwd) pytest -v --log-cli-level=INFO tests/<test_module_name>.py
    ```
 
-4. To generate a coverage report:
+<!-- 4. To generate a coverage report:
    ```bash
    PYTHONPATH=$(pwd) pytest --cov=src --cov-report=html
    ```
-   - View the HTML report in the generated `htmlcov` directory.
+   - View the HTML report in the generated `htmlcov` directory. -->
 
 ---
 
