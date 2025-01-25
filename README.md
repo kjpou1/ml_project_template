@@ -16,147 +16,6 @@ The `setup.py` script dynamically parses the `requirements.txt` file for depende
 
 ---
 
-## REST API Documentation
-
-This project features a FastAPI-based REST API for prediction tasks. The API provides endpoints for submitting input data and receiving predictions.
-
-### Base URL
-
-```plaintext
-http://<host>:<port>
-```
-
-Default host: `0.0.0.0`, port: `8000`
-
----
-
-### Endpoints
-
-#### **Root Endpoint**
-- **URL**: `/`
-- **Method**: `GET`
-- **Description**: Verifies that the API is running.
-- **Response**:
-  ```json
-  {
-      "message": "FastAPI Prediction Service is running"
-  }
-  ```
-
-#### **Prediction Endpoint**
-- **URL**: `/predict`
-- **Method**: `POST`
-- **Description**: Accepts input data, validates it, and returns a prediction or an error response.
-
-**Request Schema**:
-- **Payload**:
-  ```json
-  {
-      "payload": {
-          "data": {
-              "gender": "male",
-              "race_ethnicity": "group A",
-              "parental_level_of_education": "high school",
-              "lunch": "standard",
-              "test_preparation_course": "none",
-              "reading_score": 72.0,
-              "writing_score": 74.0
-          }
-      }
-  }
-  ```
-
-**Response**:
-
-1. **Successful Response** (`200 OK`):
-   ```json
-   {
-       "code": 0,
-       "code_text": "ok",
-       "message": "Processed successfully.",
-       "data": {"math_score": 76.9151611328125}
-   }
-   ```
-
-2. **Validation Error** (`400 Bad Request`):
-   ```json
-   {
-       "code": -1,
-       "code_text": "error",
-       "message": "Validation error occurred.",
-       "errors": [
-           {"field": "reading_score", "error": "value is not a valid float"},
-           {"field": "writing_score", "error": "field required"}
-       ]
-   }
-   ```
-
-3. **Internal Server Error** (`500 Internal Server Error`):
-   ```json
-   {
-       "code": -1,
-       "code_text": "error",
-       "message": "An internal server error occurred.",
-       "errors": null
-   }
-   ```
-
----
-
-### Example Usage
-
-#### Using `curl`
-**Request**:
-```bash
-curl -X POST "http://0.0.0.0:8000/predict" \
--H "Content-Type: application/json" \
--d '{
-    "payload": {
-        "data": {
-            "gender": "male",
-            "race_ethnicity": "group A",
-            "parental_level_of_education": "high school",
-            "lunch": "standard",
-            "test_preparation_course": "none",
-            "reading_score": 72.0,
-            "writing_score": 74.0
-        }
-    }
-}'
-```
-
-**Response**:
-```json
-{
-    "code": 0,
-    "code_text": "ok",
-    "message": "Processed successfully.",
-    "data": {"math_score": 76.9151611328125}
-}
-```
-
----
-
-## Logging Functionality
-
-This project features an enhanced logging system powered by `LoggerManager`. Key features include:
-
-- **Plain Text and JSON Logs**.
-- **Dynamic Log Levels**.
-- **Rotating File Logs**.
-
-### Configurable Environment Variables
-
-| Environment Variable | Default Value | Description |
-|-----------------------|---------------|-------------|
-| `LOG_LEVEL`          | `INFO`        | Sets the logging level. |
-| `LOG_JSON`           | `false`       | Enable JSON logs with `true`. |
-
----
-
-Here's the updated section of the README with documentation for the FastHTML interface:
-
----
 
 ## Roles of Key Scripts
 
@@ -183,26 +42,6 @@ A FastAPI-based RESTful API for serving predictions programmatically. It:
 - Validates inputs with `PredictionInputSchema` for data consistency and reliability.
 - Returns structured responses, including predictions, validation errors, or internal error messages.
 - Designed for integration with external applications or automation pipelines.
-
----
-
-### `predict_fasthtml_app.py`
-A FastHTML-based web application designed as a lightweight frontend interface to interact with the REST API. It:
-- Provides an elegant and responsive HTML interface for input submission.
-- Communicates with the FastAPI `predict_rest_api` to send user inputs and display results.
-- Handles validation errors returned by the REST API and presents them in a user-friendly format.
-
-#### Key Features:
-- **User-Friendly Interface**: 
-  - A responsive form to input prediction data, styled with clean HTML and CSS for ease of use.
-- **Integration with REST API**:
-  - Sends POST requests to the FastAPI service's `/predict` endpoint.
-  - Processes responses and displays results or error messages dynamically.
-
-Here’s an updated and clear **"Running the `predict_rest_api.py`"** section for your README:
-
----
-
 ### Running the `predict_rest_api.py`
 
 The `predict_rest_api.py` provides a RESTful API interface for programmatically interacting with the prediction service. It is designed to handle JSON-based requests and respond with structured outputs, making it ideal for integration with external applications or automation pipelines.
@@ -294,6 +133,20 @@ The `predict_rest_api.py` provides a RESTful API interface for programmatically 
 - The REST API validates all input data before processing and returns helpful error messages in case of validation issues.
 - The server is designed for production and can be scaled using tools like **Docker** or **Kubernetes**.
 
+---
+
+### `predict_fasthtml_app.py`
+A FastHTML-based web application designed as a lightweight frontend interface to interact with the REST API. It:
+- Provides an elegant and responsive HTML interface for input submission.
+- Communicates with the FastAPI `predict_rest_api` to send user inputs and display results.
+- Handles validation errors returned by the REST API and presents them in a user-friendly format.
+
+#### Key Features:
+- **User-Friendly Interface**: 
+  - A responsive form to input prediction data, styled with clean HTML and CSS for ease of use.
+- **Integration with REST API**:
+  - Sends POST requests to the FastAPI service's `/predict` endpoint.
+  - Processes responses and displays results or error messages dynamically.
 
 ---
 
@@ -331,5 +184,21 @@ The `predict_fasthtml_app.py` provides a web interface for users to interact wit
    - **On server error**: Displays a generic error message, such as "An error occurred."
 
 This simple two-step process makes it easy to run the FastHTML app and interact with the machine learning service.
+---
 
+## Logging Functionality
 
+This project features an enhanced logging system powered by `LoggerManager`. Key features include:
+
+- **Plain Text and JSON Logs**.
+- **Dynamic Log Levels**.
+- **Rotating File Logs**.
+
+### Configurable Environment Variables
+
+| Environment Variable | Default Value | Description |
+|-----------------------|---------------|-------------|
+| `LOG_LEVEL`          | `INFO`        | Sets the logging level. |
+| `LOG_JSON`           | `false`       | Enable JSON logs with `true`. |
+
+---
