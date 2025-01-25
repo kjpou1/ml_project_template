@@ -64,7 +64,6 @@ A Flask-based web application for end-users to interact with the prediction serv
 ### `launch_host`
 An entry point for running asynchronous backend tasks. It:
 - Serves as a host for machine learning pipelines or other backend services.
-- Uses the FastAPI framework to facilitate communication and management of internal components.
 - Configurable via command-line arguments for deployment and runtime behavior.
 
 ---
