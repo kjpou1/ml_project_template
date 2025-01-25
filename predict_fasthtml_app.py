@@ -8,7 +8,7 @@ app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
 
-FASTAPI_REST_URL = "http://127.0.0.1:8000/predict"
+FASTAPI_REST_URL = "http://127.0.0.1:8008/predict"
 
 
 @app.get("/", response_class=HTMLResponse)
