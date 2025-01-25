@@ -2,7 +2,19 @@
 A scalable and modular template for machine learning projects, featuring CI/CD integration, configuration management, robust testing, Dockerization, and comprehensive documentation. Ideal for production-ready ML workflows.
 
 ---
+## Table of Contents
+1. [Notes on Requirements and Installation](#notes-on-requirements-and-installation)
+2. [Roles of Key Scripts](#roles-of-key-scripts)
+   - [predict_app.py](#predict_app.py)
+   - [launch_host.py](#launch_host.py)
+   - [predict_rest_api.py](#predict_rest_api.py)
+   - [predict_fasthtml_app.py](#predict_fasthtml_app.py)
+3. [Running the Applications](#running-the-applications)
+   - [Running the `predict_rest_api.py`](#running-the-predict_rest_api.py)
+   - [Running the `predict_fasthtml_app.py`](#running-the-predict_fasthtml_app.py)
+4. [Logging Functionality](#logging-functionality)
 
+---
 ## Notes on Requirements and Installation
 
 The `setup.py` script dynamically parses the `requirements.txt` file for dependencies, but explicitly excludes the editable installation directive (`-e .`). This is because:
@@ -202,3 +214,5 @@ This project features an enhanced logging system powered by `LoggerManager`. Key
 | `LOG_JSON`           | `false`       | Enable JSON logs with `true`. |
 
 ---
+
+
