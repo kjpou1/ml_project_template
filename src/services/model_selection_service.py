@@ -23,7 +23,6 @@ from src.utils.ml_utils import evaluate_models
 from src.logger_manager import LoggerManager
 
 logging = LoggerManager.get_logger(__name__)
-# from xgboost.sklearn import XGBRegressor
 
 
 class ModelSelectionService:
@@ -50,7 +49,12 @@ class ModelSelectionService:
             test_array (np.ndarray): Testing data (features and target combined).
 
         Returns:
-            float: R2 score of the best-performing model on the test dataset.
+            dict: {
+                "model_report": dict - Detailed scores for all models,
+                "best_model_name": str - Name of the best-performing model,
+                "best_model_score": float - Score of the best model during evaluation,
+                "r2_square": float - R2 score of the saved best model on the test set
+            }
 
         Raises:
             CustomException: If no model achieves a minimum performance threshold.
@@ -125,20 +129,37 @@ class ModelSelectionService:
                 models=models,
                 param=params,
             )
+            logging.debug(f"Full model report: {model_report}")
+            # Check if model_report is empty
+            if not model_report:
+                logging.error("No models were evaluated; model_report is empty.")
+                raise CustomException("No models were evaluated.", sys)
+
+            # Filter out None values from the model report
+            filtered_model_report = {
+                k: v for k, v in model_report.items() if v is not None
+            }
+
+            # Check if filtered report is empty
+            if not filtered_model_report:
+                logging.error("All models failed during evaluation.")
+                raise CustomException("No models were successfully evaluated.", sys)
+
+            # Check if no model meets the threshold
+            if all(
+                score is None or score < 0.6 for score in filtered_model_report.values()
+            ):
+                logging.error("No model met the minimum performance threshold.")
+                raise CustomException("No model met the required threshold.", sys)
 
             # Get the best model and its performance
-            best_model_score = max(model_report.values())
-            best_model_name = max(model_report, key=model_report.get)
+            best_model_score = max(filtered_model_report.values())
+            best_model_name = max(filtered_model_report, key=filtered_model_report.get)
             best_model = models[best_model_name]
 
             logging.info(
                 f"Best model: {best_model_name} with R2 score: {best_model_score:.4f}"
             )
-
-            # Check if the best model meets the performance threshold
-            if best_model_score < 0.6:
-                logging.error("No model met the minimum performance threshold.")
-                raise CustomException("No best model found", sys)
 
             # Save the best model
             logging.info("Saving the best model.")
@@ -152,7 +173,12 @@ class ModelSelectionService:
             r2_square = r2_score(y_test, predicted)
             logging.info(f"R2 score of the best model on the test set: {r2_square:.4f}")
 
-            return r2_square
+            return {
+                "model_report": model_report,
+                "best_model_name": best_model_name,
+                "best_model_score": best_model_score,
+                "r2_square": r2_square,
+            }
 
         except Exception as e:
             logging.error("Error in model training: %s", e)
