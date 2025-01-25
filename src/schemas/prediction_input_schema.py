@@ -31,8 +31,8 @@ class PredictionInputSchema(BaseModel):
         ..., ge=0, le=100, description="Writing score must be between 0 and 100."
     )
 
-    def to_dataframe(self):
+    def to_dataframe(self) -> pd.DataFrame:
         """
         Converts the validated input to a pandas DataFrame.
         """
-        return pd.DataFrame([self.dict()])
+        return pd.DataFrame([self.model_dump()])
