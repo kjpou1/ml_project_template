@@ -3,16 +3,26 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
 
 ---
 ## Table of Contents
-1. [Notes on Requirements and Installation](#notes-on-requirements-and-installation)
-2. [Roles of Key Scripts](#roles-of-key-scripts)
-   - [predict_app.py](#predict_app)
-   - [launch_host.py](#launch_host)
-   - [predict_rest_api.py](#predict_rest_api)
-   - [predict_fasthtml_app.py](#predict_fasthtml_app)
-3. [Running the Applications](#running-the-applications)
-   - [Running the `predict_rest_api.py`](#running-the-predict_rest_api)
-   - [Running the `predict_fasthtml_app.py`](#running-the-predict_fasthtml_app)
-4. [Logging Functionality](#logging-functionality)
+- [ml\_project\_template](#ml_project_template)
+  - [Table of Contents](#table-of-contents)
+  - [Notes on Requirements and Installation](#notes-on-requirements-and-installation)
+  - [Roles of Key Scripts](#roles-of-key-scripts)
+    - [`predict_app`](#predict_app)
+    - [`launch_host`](#launch_host)
+    - [`predict_rest_api`](#predict_rest_api)
+    - [Running the `predict_rest_api`](#running-the-predict_rest_api)
+      - [Prerequisites:](#prerequisites)
+      - [Starting the REST API Server:](#starting-the-rest-api-server)
+      - [Interacting with the API:](#interacting-with-the-api)
+      - [Key Notes:](#key-notes)
+    - [`predict_fasthtml_app`](#predict_fasthtml_app)
+      - [Key Features:](#key-features)
+    - [Running the `predict_fasthtml_app`](#running-the-predict_fasthtml_app)
+      - [Prerequisites:](#prerequisites-1)
+      - [Starting the FastHTML Application:](#starting-the-fasthtml-application)
+      - [Interaction:](#interaction)
+  - [Logging Functionality](#logging-functionality)
+    - [Configurable Environment Variables](#configurable-environment-variables)
 
 ---
 ## Notes on Requirements and Installation
@@ -166,6 +176,7 @@ A FastHTML-based web application designed as a lightweight frontend interface to
 ### Running the `predict_fasthtml_app`
 
 The `predict_fasthtml_app.py` provides a web interface for users to interact with the prediction service via the REST API.
+This simple two-step process makes it easy to run the FastHTML app and interact with the machine learning service.
 
 #### Prerequisites:
 1. Ensure that all dependencies are installed by running:
@@ -196,7 +207,6 @@ The `predict_fasthtml_app.py` provides a web interface for users to interact wit
    - **On validation error**: Shows error messages returned by the REST API (e.g., missing or invalid inputs).
    - **On server error**: Displays a generic error message, such as "An error occurred."
 
-This simple two-step process makes it easy to run the FastHTML app and interact with the machine learning service.
 ---
 
 ## Logging Functionality
