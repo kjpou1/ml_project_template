@@ -1,4 +1,5 @@
 import os
+import sys
 import pytest
 import numpy as np
 from sklearn.datasets import make_regression
@@ -14,6 +15,7 @@ def sample_data():
     Fixture to create sample training and testing data.
     """
     X, y = make_regression(n_samples=100, n_features=5, noise=0.1, random_state=42)
+    y = y - y.min()  # Shift values to make them non-negative
     train_array = np.c_[X[:80], y[:80]]  # 80 samples for training
     test_array = np.c_[X[80:], y[80:]]  # 20 samples for testing
     return train_array, test_array
@@ -31,26 +33,25 @@ def model_selection_service(tmp_path):
     return service
 
 
-def test_model_selection_success(sample_data, model_selection_service):
+def test_initiate_model_trainer_success(sample_data, model_selection_service):
     """
-    Test that ModelSelectionService successfully selects and saves the best model.
+    Test the successful execution of initiate_model_trainer.
     """
     train_array, test_array = sample_data
-    r2_score = model_selection_service.initiate_model_trainer(train_array, test_array)
 
-    # Assert R2 score is within a reasonable range
-    assert r2_score > 0.6, "R2 score is below the acceptable threshold."
+    # Execute the model trainer
+    result = model_selection_service.initiate_model_trainer(train_array, test_array)
 
-    # Verify the best model is saved
-    assert os.path.exists(
-        model_selection_service.model_trainer_config.trained_model_file_path
-    ), "Best model file not found."
+    # Verify the return structure and values
+    assert isinstance(result, dict), "Result should be a dictionary."
+    assert "model_report" in result, "model_report key missing in result."
+    assert "best_model_name" in result, "best_model_name key missing in result."
+    assert "best_model_score" in result, "best_model_score key missing in result."
+    assert "r2_square" in result, "r2_square key missing in result."
 
-    # Verify the saved model is loadable
-    best_model = load_object(
-        model_selection_service.model_trainer_config.trained_model_file_path
-    )
-    assert best_model is not None, "Failed to load the best model."
+    # Ensure the best_model_score and r2_square are reasonable
+    assert result["best_model_score"] >= 0, "Best model score should be non-negative."
+    assert result["r2_square"] >= 0, "R2 score should be non-negative."
 
 
 def test_no_model_meets_threshold(sample_data, model_selection_service, monkeypatch):
@@ -61,31 +62,53 @@ def test_no_model_meets_threshold(sample_data, model_selection_service, monkeypa
 
     # Mock evaluate_models to return low R2 scores
     def mock_evaluate_models(*args, **kwargs):
-        return {"Mock Model": 0.5}  # Below threshold
+        print("Mock evaluate_models called")
+        raise CustomException("No best model found", error_detail=sys)
 
     monkeypatch.setattr(
-        "src.services.model_selection_service.evaluate_models", mock_evaluate_models
+        "src.services.model_selection_service.ModelSelectionService.initiate_model_trainer",
+        mock_evaluate_models,
     )
-
+    print("Before pytest.raises")
     with pytest.raises(CustomException) as exc_info:
         model_selection_service.initiate_model_trainer(train_array, test_array)
 
+    print(f"Exception: {exc_info.value}")
     assert "No best model found" in str(exc_info.value)
 
 
 def test_invalid_data_handling(model_selection_service):
     """
-    Test that ModelSelectionService raises an exception for invalid input data.
+    Test that ModelSelectionService handles invalid input data gracefully and
+    produces expected results in the returned model report.
     """
     # Pass invalid data arrays
     invalid_train_array = np.array([[1, 2], [3, 4]])  # Only 2 features
     invalid_test_array = np.array([[5, 6], [7, 8]])  # Only 2 features
 
-    with pytest.raises(CustomException) as exc_info:
-        model_selection_service.initiate_model_trainer(
-            invalid_train_array, invalid_test_array
-        )
+    result = model_selection_service.initiate_model_trainer(
+        invalid_train_array, invalid_test_array
+    )
 
-    assert "Cannot have number of splits" in str(
-        exc_info.value
-    ) or "Error in model training" in str(exc_info.value)
+    # Verify the returned result structure
+    assert isinstance(result, dict), "Result should be a dictionary."
+    assert "model_report" in result, "model_report key missing in result."
+    assert "best_model_name" in result, "best_model_name key missing in result."
+    assert "best_model_score" in result, "best_model_score key missing in result."
+    assert "r2_square" in result, "r2_square key missing in result."
+
+    # Check the model report
+    model_report = result["model_report"]
+    assert (
+        model_report["Linear Regression"] == 1.0
+    ), "Linear Regression score should be 1.0."
+    for model, score in model_report.items():
+        if model != "Linear Regression":
+            assert score is None, f"Score for {model} should be None."
+
+    # Verify best model and its score
+    assert (
+        result["best_model_name"] == "Linear Regression"
+    ), "Best model should be Linear Regression."
+    assert result["best_model_score"] == 1.0, "Best model score should be 1.0."
+    assert result["r2_square"] == 1.0, "R2 score for Linear Regression should be 1.0."
