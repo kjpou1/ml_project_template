@@ -4,6 +4,9 @@ from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomException
+from src.logger_manager import LoggerManager
+
+logging = LoggerManager.get_logger(__name__)
 
 
 def evaluate_models(X_train, y_train, X_test, y_test, models, param):
@@ -27,7 +30,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
         for model_name, model in models.items():
             try:
                 # Log the start of evaluation for the current model
-                print(f"Evaluating model: {model_name}")
+                logging.info(f"Evaluating model: {model_name}")
                 para = param.get(model_name, {})
 
                 # Perform GridSearchCV if hyperparameters are provided
@@ -58,12 +61,12 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
                 report[model_name] = test_model_score
 
                 # Log scores for the model
-                print(
+                logging.info(
                     f"Model: {model_name} | Train R2: {train_model_score:.4f} | Test R2: {test_model_score:.4f}"
                 )
             except Exception as model_error:
                 # Log an error if the specific model fails during evaluation
-                print(f"Error evaluating model {model_name}: {model_error}")
+                logging.error(f"Error evaluating model {model_name}: {model_error}")
                 report[model_name] = None
 
         return report
