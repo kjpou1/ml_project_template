@@ -7,11 +7,10 @@ class Config(metaclass=SingletonMeta):
 
     _is_initialized = False
 
-    def __init__(self, base_dir=None):
+    def __init__(self):
         load_dotenv()  # Load environment variables from .env file
         # Prevent re-initialization
         if not self._is_initialized:
-            self.base_dir = base_dir
             # Initialize other configuration settings here
             self._is_initialized = True
 
