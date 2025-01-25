@@ -5,13 +5,13 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
 ## Table of Contents
 1. [Notes on Requirements and Installation](#notes-on-requirements-and-installation)
 2. [Roles of Key Scripts](#roles-of-key-scripts)
-   - [predict_app.py](#predict_app.py)
-   - [launch_host.py](#launch_host.py)
-   - [predict_rest_api.py](#predict_rest_api.py)
-   - [predict_fasthtml_app.py](#predict_fasthtml_app.py)
+   - [predict_app.py](#predict_app)
+   - [launch_host.py](#launch_host)
+   - [predict_rest_api.py](#predict_rest_api)
+   - [predict_fasthtml_app.py](#predict_fasthtml_app)
 3. [Running the Applications](#running-the-applications)
-   - [Running the `predict_rest_api.py`](#running-the-predict_rest_api.py)
-   - [Running the `predict_fasthtml_app.py`](#running-the-predict_fasthtml_app.py)
+   - [Running the `predict_rest_api.py`](#running-the-predict_rest_api)
+   - [Running the `predict_fasthtml_app.py`](#running-the-predict_fasthtml_app)
 4. [Logging Functionality](#logging-functionality)
 
 ---
@@ -31,7 +31,7 @@ The `setup.py` script dynamically parses the `requirements.txt` file for depende
 
 ## Roles of Key Scripts
 
-### `predict_app.py`
+### `predict_app`
 A Flask-based web application for end-users to interact with the prediction service. It:
 - Accepts user inputs via a web form.
 - Validates inputs using the `PredictionInputSchema` to ensure data quality.
@@ -40,7 +40,7 @@ A Flask-based web application for end-users to interact with the prediction serv
 
 ---
 
-### `launch_host.py`
+### `launch_host`
 An entry point for running asynchronous backend tasks. It:
 - Serves as a host for machine learning pipelines or other backend services.
 - Uses the FastAPI framework to facilitate communication and management of internal components.
@@ -48,13 +48,14 @@ An entry point for running asynchronous backend tasks. It:
 
 ---
 
-### `predict_rest_api.py`
+### `predict_rest_api`
 A FastAPI-based RESTful API for serving predictions programmatically. It:
 - Exposes endpoints to accept structured prediction requests in JSON format.
 - Validates inputs with `PredictionInputSchema` for data consistency and reliability.
 - Returns structured responses, including predictions, validation errors, or internal error messages.
 - Designed for integration with external applications or automation pipelines.
-### Running the `predict_rest_api.py`
+
+### Running the `predict_rest_api`
 
 The `predict_rest_api.py` provides a RESTful API interface for programmatically interacting with the prediction service. It is designed to handle JSON-based requests and respond with structured outputs, making it ideal for integration with external applications or automation pipelines.
 
@@ -147,7 +148,7 @@ The `predict_rest_api.py` provides a RESTful API interface for programmatically 
 
 ---
 
-### `predict_fasthtml_app.py`
+### `predict_fasthtml_app`
 A FastHTML-based web application designed as a lightweight frontend interface to interact with the REST API. It:
 - Provides an elegant and responsive HTML interface for input submission.
 - Communicates with the FastAPI `predict_rest_api` to send user inputs and display results.
@@ -162,7 +163,7 @@ A FastHTML-based web application designed as a lightweight frontend interface to
 
 ---
 
-### Running the `predict_fasthtml_app.py`
+### Running the `predict_fasthtml_app`
 
 The `predict_fasthtml_app.py` provides a web interface for users to interact with the prediction service via the REST API.
 
