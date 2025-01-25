@@ -16,91 +16,168 @@ The `setup.py` script dynamically parses the `requirements.txt` file for depende
 
 ---
 
-## Logging Functionality
+## REST API Documentation
 
-This project features an enhanced logging system powered by `LoggerManager`, which provides structured and flexible logging to both files and the console. Key features include:
+This project features a FastAPI-based REST API for prediction tasks. The API provides endpoints for submitting input data and receiving predictions.
 
-- **Plain Text and JSON Logs**: Toggle between plain text and JSON log formats for better integration with modern logging pipelines.
-- **Dynamic Log Levels**: Customize log verbosity using environment variables or `.env` configuration.
-- **Rotating File Logs**: Automatically rotates logs to avoid disk space issues.
+### Base URL
 
-### Configurable Environment Variables
-
-You can control the logging behavior through the following environment variables, either set directly or configured in a `.env` file at the root of the project:
-
-| Environment Variable | Default Value | Description |
-|-----------------------|---------------|-------------|
-| `LOG_LEVEL`          | `INFO`        | Sets the logging level. Possible values are `DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`. |
-| `LOG_JSON`           | `false`       | Set to `true` to enable structured JSON logs. If `false`, logs will be in plain text format. |
-
-### .env File Example
-
-Create a `.env` file in the root of your project to configure logging and other environment variables:
-
-```env
-LOG_LEVEL=DEBUG
-LOG_JSON=true
+```plaintext
+http://<host>:<port>
 ```
 
-### Example Usage
+Default host: `0.0.0.0`, port: `8000`
 
-1. **Configure Logging with `.env`**:
-   - Add the above `.env` file to the project root.
+---
 
-2. **Run the Application**:
-   ```bash
-   python launch_host.py --config /path/to/config.yaml
-   ```
+### Endpoints
 
-3. **Log Output**:
+#### **Root Endpoint**
+- **URL**: `/`
+- **Method**: `GET`
+- **Description**: Verifies that the API is running.
+- **Response**:
+  ```json
+  {
+      "message": "FastAPI Prediction Service is running"
+  }
+  ```
 
-   **Plain Text Logs**:
-   ```plaintext
-   [ 2025-01-24 13:00:00 ] INFO [launch_host:12] - Launching host with arguments: {'config': 'path/to/config', 'host': '0.0.0.0'}
-   ```
+#### **Prediction Endpoint**
+- **URL**: `/predict`
+- **Method**: `POST`
+- **Description**: Accepts input data, validates it, and returns a prediction or an error response.
 
-   **JSON Logs**:
+**Request Schema**:
+- **Payload**:
+  ```json
+  {
+      "payload": {
+          "data": {
+              "gender": "male",
+              "race_ethnicity": "group A",
+              "parental_level_of_education": "high school",
+              "lunch": "standard",
+              "test_preparation_course": "none",
+              "reading_score": 72.0,
+              "writing_score": 74.0
+          }
+      }
+  }
+  ```
+
+**Response**:
+
+1. **Successful Response** (`200 OK`):
    ```json
    {
-     "timestamp": "2025-01-24 13:00:00",
-     "level": "INFO",
-     "logger": "launch_host",
-     "line": 12,
-     "message": "Launching host with arguments: {'config': 'path/to/config', 'host': '0.0.0.0'}"
+       "code": 0,
+       "code_text": "ok",
+       "message": "Processed successfully.",
+       "data": {"math_score": 76.9151611328125}
+   }
+   ```
+
+2. **Validation Error** (`400 Bad Request`):
+   ```json
+   {
+       "code": -1,
+       "code_text": "error",
+       "message": "Validation error occurred.",
+       "errors": [
+           {"field": "reading_score", "error": "value is not a valid float"},
+           {"field": "writing_score", "error": "field required"}
+       ]
+   }
+   ```
+
+3. **Internal Server Error** (`500 Internal Server Error`):
+   ```json
+   {
+       "code": -1,
+       "code_text": "error",
+       "message": "An internal server error occurred.",
+       "errors": null
    }
    ```
 
 ---
 
-## .env Configuration
+### Example Usage
 
-The `.env` file allows centralized and secure management of environment variables. In addition to logging configuration, it can store sensitive information like API keys or database connection strings.
+#### Using `curl`
+**Request**:
+```bash
+curl -X POST "http://0.0.0.0:8000/predict" \
+-H "Content-Type: application/json" \
+-d '{
+    "payload": {
+        "data": {
+            "gender": "male",
+            "race_ethnicity": "group A",
+            "parental_level_of_education": "high school",
+            "lunch": "standard",
+            "test_preparation_course": "none",
+            "reading_score": 72.0,
+            "writing_score": 74.0
+        }
+    }
+}'
+```
 
-### Best Practices for `.env` Files
-- **Do not commit the `.env` file to version control**. Add it to `.gitignore` to avoid exposing sensitive information.
-- Use a template file like `.env.example` to document expected variables for collaborators.
+**Response**:
+```json
+{
+    "code": 0,
+    "code_text": "ok",
+    "message": "Processed successfully.",
+    "data": {"math_score": 76.9151611328125}
+}
+```
 
 ---
 
-This integration of `LoggerManager`, `.env` configuration, and clearly defined script roles ensures a robust, modular, and production-ready setup for machine learning workflows.
+## Logging Functionality
 
+This project features an enhanced logging system powered by `LoggerManager`. Key features include:
+
+- **Plain Text and JSON Logs**.
+- **Dynamic Log Levels**.
+- **Rotating File Logs**.
+
+### Configurable Environment Variables
+
+| Environment Variable | Default Value | Description |
+|-----------------------|---------------|-------------|
+| `LOG_LEVEL`          | `INFO`        | Sets the logging level. |
+| `LOG_JSON`           | `false`       | Enable JSON logs with `true`. |
 
 ---
 
 ## Roles of Key Scripts
 
 ### `predict_app.py`
-The `predict_app.py` script serves as the main entry point for the Flask web application. It:
-- Handles user inputs via a web interface.
+A Flask-based web application for end-users to interact with the prediction service. It:
+- Accepts user inputs via a web form.
 - Validates inputs using the `PredictionInputSchema` to ensure data quality.
 - Sends inputs to the `PredictPipeline` for generating predictions.
-- Displays the prediction results or error messages back to the user.
+- Displays predictions or error messages back to the user in an interactive interface.
+
+---
 
 ### `launch_host.py`
-The `launch_host.py` script initializes and hosts backend services. It:
-- Serves as the entry point for running asynchronous backend tasks.
-- Facilitates hosting of machine learning pipelines or other infrastructure components.
-- Includes configuration options for deployment and runtime behavior.
+An entry point for running asynchronous backend tasks. It:
+- Serves as a host for machine learning pipelines or other backend services.
+- Uses the FastAPI framework to facilitate communication and management of internal components.
+- Configurable via command-line arguments for deployment and runtime behavior.
 
+---
 
+### `predict_rest_api.py`
+A FastAPI-based RESTful API for serving predictions programmatically. It:
+- Exposes endpoints to accept structured prediction requests in JSON format.
+- Validates inputs with `PredictionInputSchema` for data consistency and reliability.
+- Returns structured responses, including predictions, validation errors, or internal error messages.
+- Designed for integration with external applications or automation pipelines.
 
+-
