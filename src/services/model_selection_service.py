@@ -53,6 +53,7 @@ class ModelSelectionService:
                 "model_report": dict - Detailed scores for all models,
                 "best_model_name": str - Name of the best-performing model,
                 "best_model_score": float - Score of the best model during evaluation,
+                "best_model": float - The best-performing model,
                 "r2_square": float - R2 score of the saved best model on the test set
             }
 
@@ -161,12 +162,12 @@ class ModelSelectionService:
                 f"Best model: {best_model_name} with R2 score: {best_model_score:.4f}"
             )
 
-            # Save the best model
-            logging.info("Saving the best model.")
-            save_object(
-                file_path=self.model_trainer_config.trained_model_file_path,
-                obj=best_model,
-            )
+            # # Save the best model
+            # logging.info("Saving the best model.")
+            # save_object(
+            #     file_path=self.model_trainer_config.trained_model_file_path,
+            #     obj=best_model,
+            # )
 
             # Evaluate the best model on the test set
             predicted = best_model.predict(X_test)
@@ -177,6 +178,7 @@ class ModelSelectionService:
                 "model_report": model_report,
                 "best_model_name": best_model_name,
                 "best_model_score": best_model_score,
+                "best_model": best_model,
                 "r2_square": r2_square,
             }
 

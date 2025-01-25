@@ -1,11 +1,8 @@
 import asyncio
-from src.config.config import Config
 from src.models.command_line_args import CommandLineArgs
 from src.logger_manager import LoggerManager
-from src.services.data_ingestion_service import DataIngestionService
-from src.services.data_transformation_service import DataTransformationService
-from src.services.model_selection_service import ModelSelectionService
-from src.logger_manager import LoggerManager
+from src.pipeline.train_pipeline import TrainPipeline
+from src.exception import CustomException
 
 logging = LoggerManager.get_logger(__name__)
 
@@ -26,7 +23,6 @@ class Host:
         args (CommandLineArgs): Command-line arguments passed to the script.
         """
         self.args = args
-        self.config = Config()
         logging.info("Host initialized with arguments: %s", self.args)
 
     def run(self):
@@ -41,34 +37,25 @@ class Host:
         """
         Main asynchronous method to execute the host functionality.
 
-        Logs the start and end of the execution and can be extended
-        to perform additional tasks.
+        Leverages the TrainPipeline to perform data ingestion, transformation,
+        and model training in a centralized and structured manner.
         """
         try:
             logging.info("Starting host operations.")
-            # Placeholder for asynchronous tasks (e.g., service calls, workflows)
-            # await some_async_task()
 
-            # Perform data ingestion
-            data_ingestion = DataIngestionService()
-            train_data, test_data = data_ingestion.initiate_data_ingestion()
+            # Initialize and execute the training pipeline
+            train_pipeline = TrainPipeline()
+            result = train_pipeline.run_pipeline()
 
-            # Perform data transformation
-            data_transformation = DataTransformationService()
-            train_arr, test_arr, preprocessor_path = (
-                data_transformation.initiate_data_transformation(train_data, test_data)
-            )
+            # Log the results from the pipeline
+            logging.info("Pipeline execution completed successfully.")
+            logging.info("Results: %s", result)
 
-            logging.info("Data ingestion and transformation completed.")
-            logging.info(f"Preprocessor saved at: {preprocessor_path}")
-
-            model_trainer = ModelSelectionService()
-            model_trainer.initiate_model_trainer(
-                train_array=train_arr, test_array=test_arr
-            )
-
-            logging.info("Host operations completed successfully.")
+        except CustomException as e:
+            logging.error("A custom error occurred during host operations: %s", e)
+            raise  # Re-raise to handle further if needed
         except Exception as e:
-            logging.error("An error occurred during host operations: %s", e)
+            logging.error("An unexpected error occurred: %s", e)
+            raise  # Re-raise to ensure visibility of unexpected errors
         finally:
             logging.info("Shutting down host gracefully.")
