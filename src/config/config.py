@@ -26,6 +26,7 @@ class Config(metaclass=SingletonMeta):
         self.MODEL_DIR = os.path.join(self.BASE_DIR, "models")
         self.LOG_DIR = os.path.join(self.BASE_DIR, "logs")
         self.REPORTS_DIR = os.path.join(self.BASE_DIR, "reports")
+        self.PROCESSED_DATA_DIR = os.path.join(self.BASE_DIR, "data", "processed")
 
         # Ensure all necessary directories exist
         self._ensure_directories_exist()
