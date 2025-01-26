@@ -18,10 +18,6 @@ class Config(metaclass=SingletonMeta):
         # Load environment variables
         load_dotenv()
 
-        # Constants
-        self.IMG_SIZE = (224, 224)  # Image size (height, width)
-        self.BATCH_SIZE = 32  # Batch size
-
         # Base directory for artifacts
         self.BASE_DIR = os.getenv("BASE_DIR", "artifacts")
 
