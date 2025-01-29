@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -5,7 +6,12 @@ import dill  # Serialization library for Python objects
 import numpy as np
 import pandas as pd
 
+from src.config.config import Config
 from src.exception import CustomException
+from src.logger_manager import LoggerManager
+
+# Initialize logger
+logging = LoggerManager.get_logger(__name__)
 
 
 def save_object(file_path: str, obj: object) -> None:
@@ -46,3 +52,63 @@ def load_object(file_path):
 
     except Exception as e:
         raise CustomException(e, sys) from e
+
+
+def save_json(file_path: str, obj: object) -> None:
+    """
+    Saves a Python object as a JSON file.
+
+    Args:
+        file_path (str): The path where the JSON file will be saved.
+        obj (object): The Python object to be serialized to JSON.
+
+    Raises:
+        CustomException: If the object cannot be serialized or if there's an issue writing to the file.
+    """
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False, indent=4)
+        logging.info(f"JSON saved successfully to {file_path}")
+    except TypeError as e:
+        logging.error(f"Unable to serialize object to JSON. Error: {e}")
+        raise CustomException(f"Unable to serialize object to JSON. Error: {e}") from e
+    except OSError as e:
+        logging.error(f"Failed to write JSON file to {file_path}. Error: {e}")
+        raise CustomException(
+            f"Failed to write JSON file to {file_path}. Error: {e}"
+        ) from e
+
+
+def save_training_artifacts(history, model_type, run_id):
+    """
+    Save training artifacts, including the training history and metadata,
+    to a model-specific directory under the history directory.
+
+    Args:
+        history: The history object returned by `model.fit`.
+        metadata: A dictionary containing metadata about the training run.
+        model_type: Name of the model type (e.g., mobile, efficientnet).
+        run_id: Unique identifier for this training run.
+
+    Raises:
+        CustomException: If there is an error during saving.
+    """
+    try:
+        config = Config()
+        # Create model-specific subdirectory
+        model_history_dir = os.path.join(config.HISTORY_DIR, model_type)
+        os.makedirs(model_history_dir, exist_ok=True)
+
+        # Define file paths
+        history_file = os.path.join(model_history_dir, f"history_{run_id}.json")
+
+        # Save history
+        save_json(history_file, history)
+        logging.info(f"Training history saved to {history_file}")
+
+    except Exception as e:
+        logging.error(
+            f"Failed to save training artifacts for model {model_type}: {str(e)}"
+        )
+        raise CustomException(f"Failed to save training artifacts: {str(e)}")

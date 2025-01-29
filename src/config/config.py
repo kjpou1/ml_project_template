@@ -31,6 +31,10 @@ class Config(metaclass=SingletonMeta):
         self.RAW_DATA_DIR = os.path.join(self.BASE_DIR, "data", "raw")
         self.MODEL_DIR = os.path.join(self.BASE_DIR, "models")
         self.LOG_DIR = os.path.join(self.BASE_DIR, "logs")
+        self.HISTORY_DIR = os.path.join(
+            self.BASE_DIR, "history"
+        )  # Training history directory
+
         self.REPORTS_DIR = os.path.join(self.BASE_DIR, "reports")
         self.PROCESSED_DATA_DIR = os.path.join(self.BASE_DIR, "data", "processed")
 
@@ -49,6 +53,7 @@ class Config(metaclass=SingletonMeta):
             self.MODEL_DIR,
             self.LOG_DIR,
             self.REPORTS_DIR,
+            self.HISTORY_DIR,
         ]
         for directory in directories:
             os.makedirs(directory, exist_ok=True)

@@ -16,4 +16,5 @@ uvicorn
 httpx
 jinja2
 python-multipart
+pyyaml
 -e .

@@ -6,6 +6,7 @@ from src.logger_manager import LoggerManager
 from src.services.data_ingestion_service import DataIngestionService
 from src.services.data_transformation_service import DataTransformationService
 from src.services.model_selection_service import ModelSelectionService
+from src.services.model_training_service import ModelTrainingService
 from src.utils.file_utils import save_object
 
 logging = LoggerManager.get_logger(__name__)
@@ -16,6 +17,7 @@ class TrainPipeline:
         self.data_ingestion_service = DataIngestionService()
         self.data_transformation_service = DataTransformationService()
         self.model_selection_service = ModelSelectionService()
+        self.model_training_service = ModelTrainingService()
 
     def run_pipeline(self):
         try:
@@ -39,19 +41,22 @@ class TrainPipeline:
 
             # Step 3: Model Training and Selection
             logging.info("Starting model training and selection.")
-            results = self.model_selection_service.initiate_model_trainer(
-                train_arr, test_arr
+            model_name = "Linear Regression"
+            model_name = "XGBRegressor"
+            results = self.model_training_service.train_and_validate(
+                model_name, train_arr, test_arr
             )
+
             logging.info(f"Model training and selection complete. Results: {results}")
 
             # Step 4: Save Artifacts
             logging.info("Saving artifacts.")
             # Save the best model
             logging.info("Saving the best model.")
-            save_object(
-                file_path=self.model_selection_service.model_trainer_config.trained_model_file_path,
-                obj=results["best_model"],
-            )
+            # save_object(
+            #     file_path=self.model_selection_service.model_trainer_config.trained_model_file_path,
+            #     obj=results["best_model"],
+            # )
             logging.info("Artifacts saved successfully.")
             return results
 

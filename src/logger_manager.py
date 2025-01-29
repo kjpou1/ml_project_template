@@ -5,13 +5,15 @@ import sys
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
+from src.config.config import Config
+
 
 class LoggerManager:
     """Custom Logger Manager with enhanced features."""
 
     # Initialize default log settings
     LOG_FILE = f"{datetime.now().strftime('%m_%d_%Y_%H_%M_%S')}.log"
-    LOGS_DIR = os.path.join(os.getcwd(), "logs")
+    LOGS_DIR = Config().LOG_DIR
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
     LOG_JSON = os.getenv("LOG_JSON", "false").lower() == "true"
 

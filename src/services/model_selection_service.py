@@ -15,12 +15,10 @@ from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
 from src.exception import CustomException
-
+from src.logger_manager import LoggerManager
 from src.models.model_trainer_config import ModelTrainerConfig
 from src.utils.file_utils import save_object
 from src.utils.ml_utils import evaluate_models
-
-from src.logger_manager import LoggerManager
 
 logging = LoggerManager.get_logger(__name__)
 
