@@ -12,10 +12,13 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
   - [Model](#model)
   - [Results](#results)
   - [Installation](#installation)
-  - [Usage](#usage)
-    - [Training Pipeline](#training-pipeline)
-    - [Prediction](#prediction)
-    - [REST API](#rest-api)
+  - [🚀 Usage](#-usage)
+    - [**📌 1. Running Data Ingestion**](#-1-running-data-ingestion)
+      - [**Available Options**](#available-options)
+    - [**📌 2. Running Model Training**](#-2-running-model-training)
+      - [**Available Options**](#available-options-1)
+    - [**📌 Example Runs**](#-example-runs)
+    - [**📌 Notes**](#-notes)
   - [Configuration](#configuration)
   - [Project Structure](#project-structure)
   - [Technologies Used](#technologies-used)
@@ -86,24 +89,55 @@ This project provides a reusable template to kickstart machine learning workflow
 
 ---
 
-## Usage  
-### Training Pipeline  
-Run the training pipeline to ingest data, preprocess it, and train models:  
-```bash  
-python train_pipeline.py  
-```  
+## 🚀 Usage
+The project supports **two primary workflows**:  
+1️⃣ **Data Ingestion** (Download & Prepare Datasets)  
+2️⃣ **Model Training** (Train ML Models)  
 
-### Prediction  
-Run predictions using the saved model and preprocessor:  
-```bash  
-python predict_pipeline.py --input <input_file>  
-```  
+These workflows can be executed via **command-line arguments**.
 
-### REST API  
-Start the REST API for predictions:  
-```bash  
-uvicorn predict_rest_api:app --host 0.0.0.0 --port 8008 --reload  
-```  
+### **📌 1. Running Data Ingestion**
+To **ingest data**, use the following command:
+```bash
+python launch.py ingest --config config/ingestion_config.yaml --debug
+```
+#### **Available Options**
+| Argument  | Description | Default |
+|------------|------------|---------|
+| `--config` | (Optional) Path to ingestion configuration file | None |
+| `--debug` | (Optional) Enable debug mode | `False` |
+
+---
+
+### **📌 2. Running Model Training**
+To **train a model**, run:
+```bash
+python launch.py train --config config/model_config.yaml --debug
+```
+#### **Available Options**
+| Argument  | Description | Default |
+|------------|------------|---------|
+| `--config` | (Optional) Path to training configuration file | `config/model_config.yaml` |
+| `--debug` | (Optional) Enable debug mode | `False` |
+
+---
+
+### **📌 Example Runs**
+🔹 **Run data ingestion with a custom config file**:
+```bash
+python launch.py ingest --config my_custom_ingestion.yaml
+```
+🔹 **Run model training in debug mode**:
+```bash
+python launch.py train --debug
+```
+
+---
+
+### **📌 Notes**
+- If no `--config` is provided, **default configurations** will be used.
+- The script **logs all activity** for debugging and monitoring.
+- Future updates will include `--model-type` for training.
 
 ---
 
@@ -170,3 +204,4 @@ ml_project_template/
 ## Acknowledgements  
 - Scikit-learn documentation for algorithm support.  
 - Community contributors for feedback and improvements.  
+```
