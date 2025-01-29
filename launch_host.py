@@ -6,9 +6,10 @@ creating a Host instance, and launching its main logic asynchronously.
 """
 
 import asyncio
+
 from src.host import Host
-from src.runtime.command_line import CommandLine
 from src.logger_manager import LoggerManager
+from src.runtime.command_line import CommandLine
 
 logging = LoggerManager.get_logger(__name__)
 
@@ -23,6 +24,9 @@ async def launch_async():
     try:
         args = CommandLine.parse_arguments()
         logging.info("Launching host with arguments: %s", args)
+
+        if args.debug:
+            LoggerManager.set_log_level(logging.debug)
 
         # Create an instance of Host with parsed arguments
         instance = Host(args)
