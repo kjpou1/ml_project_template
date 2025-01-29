@@ -1,5 +1,7 @@
 import os
+
 from dotenv import load_dotenv
+
 from src.models import SingletonMeta
 
 
@@ -17,6 +19,10 @@ class Config(metaclass=SingletonMeta):
 
         # Load environment variables
         load_dotenv()
+
+        # Attributes that can be set dynamically
+        self._debug = os.getenv("DEBUG", False)
+        self._config_path = os.getenv("CONFIG_PATH", "config/default.yaml")
 
         # Base directory for artifacts
         self.BASE_DIR = os.getenv("BASE_DIR", "artifacts")
@@ -46,6 +52,30 @@ class Config(metaclass=SingletonMeta):
         ]
         for directory in directories:
             os.makedirs(directory, exist_ok=True)
+
+    @property
+    def config_path(self):
+        """Get the configuration file path."""
+        return self._config_path
+
+    @config_path.setter
+    def config_path(self, value):
+        """Set the configuration file path."""
+        if not isinstance(value, str):
+            raise ValueError("config_path must be a string.")
+        self._config_path = value
+
+    @property
+    def debug(self):
+        """Get the debug mode status."""
+        return self._debug
+
+    @debug.setter
+    def debug(self, value):
+        """Set the debug mode status."""
+        if not isinstance(value, bool):
+            raise ValueError("debug must be a boolean value.")
+        self._debug = value
 
     @classmethod
     def initialize(cls):

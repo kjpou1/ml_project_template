@@ -1,7 +1,7 @@
+import json
 import logging
 import os
 import sys
-import json
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
@@ -35,6 +35,14 @@ class LoggerManager:
                 "message": record.getMessage(),
             }
             return json.dumps(log_record)
+
+    @classmethod
+    def set_log_level(cls, level):
+        """Dynamically set the logging level."""
+        cls.LOG_LEVEL = level
+        logging.getLogger().setLevel(level)
+        for handler in logging.getLogger().handlers:
+            handler.setLevel(level)
 
     @staticmethod
     def get_logger(name: str) -> logging.Logger:

@@ -22,17 +22,19 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
   - [Configuration](#configuration)
   - [Project Structure](#project-structure)
   - [Technologies Used](#technologies-used)
-  - [Automated Test Suite Documentation](#automated-test-suite-documentation)
-  - [Test Categories and Coverage](#test-categories-and-coverage)
-    - [1. REST API Tests](#1-rest-api-tests)
-      - [Test Cases:](#test-cases)
-    - [2. Data Ingestion Tests](#2-data-ingestion-tests)
-      - [Test Cases:](#test-cases-1)
-    - [3. Data Transformation Tests](#3-data-transformation-tests)
-      - [Test Cases:](#test-cases-2)
-    - [4. Model Selection Tests](#4-model-selection-tests)
-      - [Test Cases:](#test-cases-3)
-    - [Execution Instructions](#execution-instructions)
+  - [**Automated Test Suite Documentation**](#automated-test-suite-documentation)
+  - [**Test Categories and Coverage**](#test-categories-and-coverage)
+    - [**1. REST API Tests**](#1-rest-api-tests)
+      - [**Test Cases:**](#test-cases)
+    - [**2. Data Ingestion Tests**](#2-data-ingestion-tests)
+      - [**Test Cases:**](#test-cases-1)
+    - [**3. Data Transformation Tests**](#3-data-transformation-tests)
+      - [**Test Cases:**](#test-cases-2)
+    - [**4. Model Selection Tests**](#4-model-selection-tests)
+      - [**Test Cases:**](#test-cases-3)
+    - [**5. Command-Line Argument Tests**](#5-command-line-argument-tests)
+      - [**Test Cases:**](#test-cases-4)
+  - [**Execution Instructions**](#execution-instructions)
   - [Contributing](#contributing)
   - [License](#license)
   - [Acknowledgements](#acknowledgements)
@@ -183,18 +185,18 @@ ml_project_template/
 
 ---
 
-## Automated Test Suite Documentation
+## **Automated Test Suite Documentation**  
 
-The project includes a comprehensive suite of tests to validate the functionality, robustness, and reliability of key components. Below is a categorized list of all tests with their purposes and expected outcomes, updated to reflect recent changes.
+The project includes a comprehensive suite of tests to validate the functionality, robustness, and reliability of key components. Below is a categorized list of all tests with their purposes and expected outcomes, updated to reflect recent changes.  
 
 ---
 
-## Test Categories and Coverage
+## **Test Categories and Coverage**  
 
-### 1. REST API Tests
-**Located in**: `tests/test_rest_api.py`
+### **1. REST API Tests**  
+**Located in**: `tests/test_rest_api.py`  
 
-#### Test Cases:
+#### **Test Cases:**  
 | **Test Name**                   | **Purpose**                                                                                           | **Expected Outcome**                                                                                          |
 |----------------------------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `test_predict_success`           | Tests the `/predict` endpoint with valid input data.                                                  | Returns a `200 OK` response with a valid prediction.                                                         |
@@ -204,10 +206,10 @@ The project includes a comprehensive suite of tests to validate the functionalit
 
 ---
 
-### 2. Data Ingestion Tests
-**Located in**: `tests/test_services/test_data_ingestion.py`
+### **2. Data Ingestion Tests**  
+**Located in**: `tests/test_services/test_data_ingestion.py`  
 
-#### Test Cases:
+#### **Test Cases:**  
 | **Test Name**                       | **Purpose**                                                                                     | **Expected Outcome**                                                                                          |
 |-------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `test_data_ingestion_with_missing_file` | Ensures the data ingestion process handles missing input files gracefully.                      | Raises a `CustomException` caused by a `FileNotFoundError`, with a message referencing the missing file.       |
@@ -215,10 +217,10 @@ The project includes a comprehensive suite of tests to validate the functionalit
 
 ---
 
-### 3. Data Transformation Tests
-**Located in**: `tests/test_services/test_data_transformation.py`
+### **3. Data Transformation Tests**  
+**Located in**: `tests/test_services/test_data_transformation.py`  
 
-#### Test Cases:
+#### **Test Cases:**  
 | **Test Name**                         | **Purpose**                                                                                     | **Expected Outcome**                                                                                          |
 |---------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `test_data_transformation`            | Ensures the data transformation process works as expected with valid inputs.                    | Returns transformed train and test arrays with expected shapes and saves the preprocessor object.             |
@@ -226,10 +228,10 @@ The project includes a comprehensive suite of tests to validate the functionalit
 
 ---
 
-### 4. Model Selection Tests
-**Located in**: `tests/test_services/test_model_selection.py`
+### **4. Model Selection Tests**  
+**Located in**: `tests/test_services/test_model_selection.py`  
 
-#### Test Cases:
+#### **Test Cases:**  
 | **Test Name**                       | **Purpose**                                                                                     | **Expected Outcome**                                                                                          |
 |-------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `test_initiate_model_trainer_success` | Validates the selection and evaluation of the best model from the given data.                   | Ensures a valid model report is returned, the best model is identified, and its score meets expectations.      |
@@ -238,23 +240,41 @@ The project includes a comprehensive suite of tests to validate the functionalit
 
 ---
 
-### Execution Instructions
-1. Ensure all dependencies are installed using:
+### **5. Command-Line Argument Tests**  
+**Located in**: `tests/test_command_line.py`  
+
+#### **Test Cases:**  
+| **Test Name**                         | **Purpose**                                                                                     | **Expected Outcome**                                                                                          |
+|---------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `test_parse_arguments_ingest_monkey`  | Tests argument parsing for the `ingest` command using `monkeypatch`.                            | Ensures `ingest` is recognized and `config` is properly set.                                                 |
+| `test_parse_arguments_train_monkey`   | Tests argument parsing for the `train` command with `monkeypatch`.                             | Ensures `train` command is parsed and `--debug` is correctly set to `True`.                                  |
+| `test_parse_arguments_ingest_mock`    | Tests `ingest` command parsing using `patch`.                                                 | Ensures correct argument assignment for `ingest`.                                                            |
+| `test_parse_arguments_train_mock`     | Tests `train` command parsing using `patch`.                                                  | Ensures correct argument assignment for `train`.                                                             |
+| `test_parse_arguments_ingest_no_config` | Ensures `ingest` works without a specified config file.                                        | Confirms default config behavior when none is provided.                                                      |
+| `test_parse_arguments_train_no_debug` | Ensures `train` command behavior when `--debug` is not passed.                                | Confirms `debug` defaults to `False` and correct model config is used.                                       |
+| `test_parse_arguments_ingest_with_debug` | Ensures `ingest` command accepts the `--debug` flag.                                         | Verifies `debug` is correctly set to `True`.                                                                |
+| `test_parse_arguments_no_command`     | Tests behavior when no command is provided.                                                  | Ensures the application exits with an error.                                                                |
+
+---
+
+## **Execution Instructions**  
+
+1. Ensure all dependencies are installed using:  
    ```bash
    pip install -r requirements.txt
    ```
 
-2. Run the tests using `pytest`:
+2. Run the tests using `pytest`:  
    ```bash
    PYTHONPATH=$(pwd) pytest -v
    ```
 
-3. To run a specific test module, use:
+3. To run a specific test module, use:  
    ```bash
    PYTHONPATH=$(pwd) pytest -v tests/<test_module_name>.py
    ```
 
-4. To generate a coverage report:
+4. To generate a coverage report:  
    ```bash
    PYTHONPATH=$(pwd) pytest --cov=src --cov-report=html
    ```

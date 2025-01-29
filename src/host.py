@@ -1,5 +1,6 @@
 import asyncio
 
+from src.config.config import Config
 from src.exception import CustomException
 from src.logger_manager import LoggerManager
 from src.models.command_line_args import CommandLineArgs
@@ -25,6 +26,9 @@ class Host:
         args (CommandLineArgs): Command-line arguments passed to the script.
         """
         self.args = args
+        self.config = Config()
+        if args.config:
+            self.config.config_path = args.config
         logging.info("Host initialized with arguments: %s", self.args)
 
     def run(self):
