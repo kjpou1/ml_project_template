@@ -17,7 +17,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "launch_host.py",
-            "args": ["--host=0.0.0.0"],
+            "args": [],
         },
 
     ]

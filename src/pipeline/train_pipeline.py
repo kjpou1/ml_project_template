@@ -1,11 +1,12 @@
 import os
 import sys
+
+from src.exception import CustomException
+from src.logger_manager import LoggerManager
 from src.services.data_ingestion_service import DataIngestionService
 from src.services.data_transformation_service import DataTransformationService
 from src.services.model_selection_service import ModelSelectionService
 from src.utils.file_utils import save_object
-from src.exception import CustomException
-from src.logger_manager import LoggerManager
 
 logging = LoggerManager.get_logger(__name__)
 
@@ -51,12 +52,6 @@ class TrainPipeline:
                 file_path=self.model_selection_service.model_trainer_config.trained_model_file_path,
                 obj=results["best_model"],
             )
-
-            # save_object(preprocessor_path, preprocessor_path)
-            # save_object(
-            #     self.model_selection_service.model_trainer_config.trained_model_file_path,
-            #     os.path.join("artifacts", "model.pkl"),
-            # )
             logging.info("Artifacts saved successfully.")
             return results
 
