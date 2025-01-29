@@ -26,6 +26,13 @@
             "program": "launch_host.py",
             "args": ["ingest"],
         },
+        {
+            "name": "Train",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "launch_host.py",
+            "args": ["train"],
+        },
 
     ]
 }

@@ -53,10 +53,10 @@ class Host:
                 await self.run_ingestion()
             elif self.args.command == "train":
                 logging.info("Executing training workflow.")
-                if not self.args.model_type:
-                    raise ValueError(
-                        "A model type must be specified for the 'train' command."
-                    )
+                # if not self.args.model_type:
+                #     raise ValueError(
+                #         "A model type must be specified for the 'train' command."
+                #     )
                 await self.run_training()
             else:
                 logging.error("No valid subcommand provided.")
