@@ -12,13 +12,13 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
   - [Model](#model)
   - [Results](#results)
   - [Installation](#installation)
-  - [🚀 Usage](#-usage)
-    - [**📌 1. Running Data Ingestion**](#-1-running-data-ingestion)
-      - [**Available Options**](#available-options)
-    - [**📌 2. Running Model Training**](#-2-running-model-training)
-      - [**Available Options**](#available-options-1)
-    - [**📌 Example Runs**](#-example-runs)
-    - [**📌 Notes**](#-notes)
+  - [Usage](#usage)
+    - [1. Running Data Ingestion](#1-running-data-ingestion)
+      - [Available Options](#available-options)
+    - [2. Running Model Training](#2-running-model-training)
+      - [Available Options](#available-options-1)
+    - [Example Runs](#example-runs)
+    - [Notes](#notes)
   - [Configuration](#configuration)
   - [Project Structure](#project-structure)
   - [Technologies Used](#technologies-used)
@@ -101,19 +101,21 @@ This project provides a reusable template to kickstart machine learning workflow
 
 ---
 
-## 🚀 Usage
-The project supports **two primary workflows**:  
-1️⃣ **Data Ingestion** (Download & Prepare Datasets)  
-2️⃣ **Model Training** (Train ML Models)  
+## Usage  
+The project supports two primary workflows:  
+1. Data Ingestion (Download & Prepare Datasets)  
+2. Model Training (Train ML Models)  
 
-These workflows can be executed via **command-line arguments**.
+These workflows can be executed via command-line arguments.
 
-### **📌 1. Running Data Ingestion**
-To **ingest data**, use the following command:
+---
+
+### 1. Running Data Ingestion  
+To ingest data, use the following command:
 ```bash
 python launch.py ingest --config config/ingestion_config.yaml --debug
 ```
-#### **Available Options**
+#### Available Options
 | Argument  | Description | Default |
 |------------|------------|---------|
 | `--config` | (Optional) Path to ingestion configuration file | None |
@@ -121,35 +123,52 @@ python launch.py ingest --config config/ingestion_config.yaml --debug
 
 ---
 
-### **📌 2. Running Model Training**
-To **train a model**, run:
+### 2. Running Model Training  
+To train a model, run:
 ```bash
 python launch.py train --config config/model_config.yaml --debug
 ```
-#### **Available Options**
+#### Available Options
 | Argument  | Description | Default |
 |------------|------------|---------|
 | `--config` | (Optional) Path to training configuration file | `config/model_config.yaml` |
 | `--debug` | (Optional) Enable debug mode | `False` |
+| `--model-type` | (Optional) Specify one or more models to train (e.g., `"RandomForest DecisionTree"`) | Runs all models if not provided |
+| `--best-of-all` | (Optional) If set, overrides `--model-type` and trains all models to find the best one | `False` |
+| `--save-best` | (Optional) If set, saves the best-performing model after training | `False` |
 
 ---
 
-### **📌 Example Runs**
-🔹 **Run data ingestion with a custom config file**:
-```bash
-python launch.py ingest --config my_custom_ingestion.yaml
-```
-🔹 **Run model training in debug mode**:
-```bash
-python launch.py train --debug
-```
+### Example Runs  
+- Run data ingestion with a custom config file:  
+  ```bash
+  python launch.py ingest --config my_custom_ingestion.yaml
+  ```  
+- Run model training in debug mode:  
+  ```bash
+  python launch.py train --debug
+  ```  
+- Train a specific model (e.g., CatBoost and Linear Regression):  
+  ```bash
+  python launch.py train --model-type "CatBoosting Regressor" "Linear Regression"
+  ```  
+- Train all models and pick the best one automatically:  
+  ```bash
+  python launch.py train --best-of-all
+  ```  
+- Train all models and save the best one:  
+  ```bash
+  python launch.py train --best-of-all --save-best
+  ```  
 
 ---
 
-### **📌 Notes**
-- If no `--config` is provided, **default configurations** will be used.
-- The script **logs all activity** for debugging and monitoring.
-- Future updates will include `--model-type` for training.
+### Notes
+- If no `--config` is provided, default configurations will be used.
+- If `--model-type` is not provided, all models will be trained.
+- Using `--best-of-all` will override `--model-type` and automatically determine the best model.
+- The `--save-best` flag ensures that the best model is stored after training.
+- The script logs all activity for debugging and monitoring.
 
 ---
 
