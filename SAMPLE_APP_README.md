@@ -1,22 +1,22 @@
-Here is a structured README to document your prediction services.
 
----
-
-# **Prediction Services Documentation**
+# **Sample Apps Documentation**
 
 This document provides an overview of the prediction services implemented in this project. The system consists of multiple interfaces to handle predictions, including a **Flask web app**, a **FastAPI-based HTML interface**, and a **FastAPI REST API**.
 
 ## **Table of Contents**
-- [Overview](#overview)
-- [System Components](#system-components)
-- [Installation & Setup](#installation--setup)
-- [Usage](#usage)
-  - [Flask Web App](#flask-web-app)
-  - [FastAPI HTML Interface](#fastapi-html-interface)
-  - [FastAPI REST API](#fastapi-rest-api)
-- [Configuration](#configuration)
-- [Error Handling](#error-handling)
-- [Enhancements & Next Steps](#enhancements--next-steps)
+- [**Sample Apps Documentation**](#sample-apps-documentation)
+  - [**Table of Contents**](#table-of-contents)
+  - [**Overview**](#overview)
+  - [**System Components**](#system-components)
+  - [**Installation \& Setup**](#installation--setup)
+    - [**1. Start the prediction services**](#1-start-the-prediction-services)
+  - [**Usage**](#usage)
+    - [**Flask Web App**](#flask-web-app)
+    - [**FastAPI HTML Interface**](#fastapi-html-interface)
+    - [**FastAPI REST API**](#fastapi-rest-api)
+      - [**Example Request**](#example-request)
+      - [**Example Response**](#example-response)
+  - [**Error Handling**](#error-handling)
 
 ---
 
