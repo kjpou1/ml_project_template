@@ -36,6 +36,7 @@ class Config(metaclass=SingletonMeta):
         self.MODEL_FILE_PATH = os.path.join(
             self.MODEL_DIR, "model.pkl"
         )  # Training history directory
+        self.PREPROCESSOR_FILE_PATH = os.path.join(self.BASE_DIR, "preprocessor.pkl")
         self.LOG_DIR = os.path.join(self.BASE_DIR, "logs")
         self.HISTORY_DIR = os.path.join(
             self.BASE_DIR, "history"

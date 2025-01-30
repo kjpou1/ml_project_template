@@ -3,9 +3,10 @@ import sys
 
 import pandas as pd
 
+from src.config.config import Config
 from src.exception import CustomException
-from src.utils.file_utils import load_object
 from src.logger_manager import LoggerManager
+from src.utils.file_utils import load_object
 
 logging = LoggerManager.get_logger(__name__)
 
@@ -16,8 +17,9 @@ class PredictPipeline:
         Initialize the PredictPipeline by loading the model and preprocessor.
         """
         try:
-            model_path = os.path.join("artifacts", "model.pkl")
-            preprocessor_path = os.path.join("artifacts", "preprocessor.pkl")
+            self.config = Config()
+            model_path = self.config.MODEL_FILE_PATH
+            preprocessor_path = self.config.PREPROCESSOR_FILE_PATH
             logging.info("Loading model and preprocessor.")
 
             # Load the model and preprocessor once during initialization

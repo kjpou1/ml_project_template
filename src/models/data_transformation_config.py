@@ -1,5 +1,7 @@
-from dataclasses import dataclass
 import os
+from dataclasses import dataclass
+
+from src.config.config import Config
 
 
 @dataclass
@@ -9,4 +11,4 @@ class DataTransformationConfig:
     Defines the file path for saving the preprocessor object.
     """
 
-    preprocessor_obj_file_path: str = os.path.join("artifacts", "preprocessor.pkl")
+    preprocessor_obj_file_path: str = Config().PREPROCESSOR_FILE_PATH
