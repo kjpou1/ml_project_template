@@ -192,10 +192,6 @@ ml_project_template/
 
 ---
 
-In the main `README.md`, update the **Automated Test Suite Documentation** section to:
-
----
-
 ## Automated Test Suite Documentation  
 
 For a detailed overview of the testing framework, including test categories, execution instructions, and coverage reports, refer to the [Test Suite Documentation](tests/README.md). This document provides insights into how the system is validated for robustness, correctness, and reliability across different components.
