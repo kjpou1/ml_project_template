@@ -51,6 +51,24 @@ class CommandLine:
             help="Enable debug mode during training.",
         )
 
+        train_parser.add_argument(
+            "--model-type",
+            type=str,
+            nargs="+",
+            help="Specify one or more models to train (e.g., 'RandomForest DecisionTree').",
+        )
+        train_parser.add_argument(
+            "--best-of-all",
+            action="store_true",
+            help="If set, overrides --model_type and trains all models to find the best.",
+        )
+
+        train_parser.add_argument(
+            "--save-best",
+            action="store_true",
+            help="If set, saves the best-performing model after training.",
+        )
+
         # Parse the arguments
         args = parser.parse_args()
 
@@ -64,4 +82,7 @@ class CommandLine:
             command=args.command,
             config=args.config,
             debug=args.debug,
+            model_type=args.model_type,
+            best_of_all=args.best_of_all,
+            save_best=args.save_best,
         )

@@ -31,7 +31,21 @@
             "type": "debugpy",
             "request": "launch",
             "program": "launch_host.py",
-            "args": ["train"],
+            "args": ["train", "--model_type", "CatBoosting Regressor", "Linear Regression"],
+        },
+        {
+            "name": "Train Best",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "launch_host.py",
+            "args": ["train", "--best-of-all"],
+        },
+        {
+            "name": "Train & Save Best",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "launch_host.py",
+            "args": ["train", "--best-of-all", "--save-best"],
         },
 
     ]

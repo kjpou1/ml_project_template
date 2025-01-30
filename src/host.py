@@ -29,6 +29,9 @@ class Host:
         self.config = Config()
         if args.config:
             self.config.config_path = args.config
+        self.config.model_type = args.model_type
+        self.config.best_of_all = args.best_of_all
+        self.config.save_best = args.save_best
         logging.info("Host initialized with arguments: %s", self.args)
 
     def run(self):

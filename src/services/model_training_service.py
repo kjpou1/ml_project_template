@@ -45,54 +45,6 @@ class ModelTrainingService:
                 test_array[:, -1],  # Target for testing
             )
 
-            # # Define models and their hyperparameters
-            # models = {
-            #     "Random Forest": RandomForestRegressor(),
-            #     "Decision Tree": DecisionTreeRegressor(),
-            #     "Gradient Boosting": GradientBoostingRegressor(),
-            #     "Linear Regression": LinearRegression(),
-            #     "XGBRegressor": XGBRegressor(),
-            #     "CatBoosting Regressor": CatBoostRegressor(
-            #         verbose=False,
-            #         train_dir=self.model_trainer_config.catboost_training_dir,
-            #     ),
-            #     "AdaBoost Regressor": AdaBoostRegressor(),
-            # }
-            # params = {
-            #     "Decision Tree": {
-            #         "criterion": [
-            #             "squared_error",
-            #             "friedman_mse",
-            #             "absolute_error",
-            #             "poisson",
-            #         ],
-            #     },
-            #     "Random Forest": {
-            #         "n_estimators": [8, 16, 32, 64, 128, 256],
-            #     },
-            #     "Gradient Boosting": {
-            #         "learning_rate": [0.1, 0.01, 0.05, 0.001],
-            #         "subsample": [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
-            #         "n_estimators": [8, 16, 32, 64, 128, 256],
-            #     },
-            #     "Linear Regression": {},
-            #     "XGBRegressor": {
-            #         "learning_rate": [0.1, 0.01, 0.05, 0.001],
-            #         "n_estimators": [8, 16, 32, 64, 128, 256],
-            #         "max_depth": [3, 5, 7],
-            #         "subsample": [0.8, 1.0],
-            #         "colsample_bytree": [0.8, 1.0],
-            #     },
-            #     "CatBoosting Regressor": {
-            #         "depth": [6, 8, 10],
-            #         "learning_rate": [0.01, 0.05, 0.1],
-            #         "iterations": [30, 50, 100],
-            #     },
-            #     "AdaBoost Regressor": {
-            #         "learning_rate": [0.1, 0.01, 0.5, 0.001],
-            #         "n_estimators": [8, 16, 32, 64, 128, 256],
-            #     },
-            # }
             model_configs = load_model_config()
             # Initialize models and their parameters
             models = {}
@@ -155,22 +107,16 @@ class ModelTrainingService:
                 f"Model: {model_name} | Train R2: {train_model_score:.4f} | Test R2: {test_model_score:.4f}"
             )
 
-            history = {
-                "model": model_name,
+            train_results = {
+                "model": model,
+                "model_name": model_name,
                 "train_r2": train_model_score,
                 "test_r2": test_model_score,
             }
 
-            # Generate metadata and save artifacts
-            run_id = (
-                datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + str(uuid.uuid4())[:8]
-            )
-
-            save_training_artifacts(history, model_name, run_id)
-
             self.logger.info("Model training completed successfully.")
 
-            return history
+            return train_results
         except Exception as e:
             self.logger.error(f"Error during model training: {e}")
             raise

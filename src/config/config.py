@@ -23,6 +23,9 @@ class Config(metaclass=SingletonMeta):
         # Attributes that can be set dynamically
         self._debug = os.getenv("DEBUG", False)
         self._config_path = os.getenv("CONFIG_PATH", "config/default.yaml")
+        self._model_type = None  # Default value for model_type
+        self._best_of_all = False  # Default value for best_of_all
+        self._save_best = False  # Default value for save_best
 
         # Base directory for artifacts
         self.BASE_DIR = os.getenv("BASE_DIR", "artifacts")
@@ -30,9 +33,16 @@ class Config(metaclass=SingletonMeta):
         # Subdirectories for artifacts
         self.RAW_DATA_DIR = os.path.join(self.BASE_DIR, "data", "raw")
         self.MODEL_DIR = os.path.join(self.BASE_DIR, "models")
+        self.MODEL_FILE_PATH = os.path.join(
+            self.MODEL_DIR, "model.pkl"
+        )  # Training history directory
         self.LOG_DIR = os.path.join(self.BASE_DIR, "logs")
         self.HISTORY_DIR = os.path.join(
             self.BASE_DIR, "history"
+        )  # Training history directory
+
+        self.HISTORY_FILE_PATH = os.path.join(
+            self.BASE_DIR, "history", "training_history.json"
         )  # Training history directory
 
         self.REPORTS_DIR = os.path.join(self.BASE_DIR, "reports")
@@ -81,6 +91,42 @@ class Config(metaclass=SingletonMeta):
         if not isinstance(value, bool):
             raise ValueError("debug must be a boolean value.")
         self._debug = value
+
+    @property
+    def model_type(self):
+        """Get the model type(s) for training."""
+        return self._model_type
+
+    @model_type.setter
+    def model_type(self, value):
+        """Set the model type(s) for training."""
+        if not isinstance(value, (list, type(None))):
+            raise ValueError("model_type must be a list or None.")
+        self._model_type = value
+
+    @property
+    def best_of_all(self):
+        """Get the best_of_all flag."""
+        return self._best_of_all
+
+    @best_of_all.setter
+    def best_of_all(self, value):
+        """Set the best_of_all flag."""
+        if not isinstance(value, bool):
+            raise ValueError("best_of_all must be a boolean value.")
+        self._best_of_all = value
+
+    @property
+    def save_best(self):
+        """Get the save_best flag."""
+        return self._save_best
+
+    @save_best.setter
+    def save_best(self, value):
+        """Set the save_best flag."""
+        if not isinstance(value, bool):
+            raise ValueError("save_best must be a boolean value.")
+        self._save_best = value
 
     @classmethod
     def initialize(cls):
