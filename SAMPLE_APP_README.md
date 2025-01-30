@@ -3,9 +3,9 @@
 
 This document provides an overview of the prediction services implemented in this project. The system consists of multiple interfaces to handle predictions, including a **Flask web app**, a **FastAPI-based HTML interface**, and a **FastAPI REST API**.
 
-## **Table of Contents**
+## Table of Contents
 - [Sample Apps Documentation](#sample-apps-documentation)
-  - [**Table of Contents**](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [System Components](#system-components)
   - [Installation \& Setup](#installation--setup)
@@ -16,6 +16,8 @@ This document provides an overview of the prediction services implemented in thi
     - [FastAPI REST API](#fastapi-rest-api)
       - [Example Request](#example-request)
       - [Example Response](#example-response)
+  - [Screen Shots](#screen-shots)
+    - [Flask Web App](#flask-web-app-1)
   - [Error Handling](#error-handling)
 
 ---
@@ -114,7 +116,19 @@ curl -X POST "http://localhost:8008/predict" \
     "data": {"math_score": 76.91}
 }
 ```
+---
 
+## Screen Shots
+
+### Flask Web App
+2. ![Flask Web App Form](screenshots/flask_app_home.png)
+![Prediction Form with input fields](screenshots/flask_app_index.png).
+![Prediction Form with data](screenshots/flask_app_index_with_data.png).
+![Prediction Form with prediction](screenshots/flask_app_index_predict.png)
+1. FastAPI HTML Interface
+![Initial FastHTML Form](screenshots/fasthtiml_index.png).
+![Initial FastHTML Form with data](screenshots/fasthtiml_index_with_data.png)
+![Initial FastHTML Form with result](screenshots/fasthtiml_index_result.png)
 
 ---
 
