@@ -1,6 +1,7 @@
 import argparse
 
 from src.models.command_line_args import CommandLineArgs
+from src.utils.yaml_loader import load_supported_model_types
 
 from .logging_argument_parser import LoggingArgumentParser
 
@@ -71,6 +72,33 @@ class CommandLine:
 
         # Parse the arguments
         args = parser.parse_args()
+
+        # ✅ Validation - Ensure either --model-type OR --best-of-all is set, but NOT both
+        if args.command == "train":
+            if args.model_type and args.best_of_all:
+                parser.error(
+                    "You cannot specify both --model-type and --best-of-all. Choose one."
+                )
+                sys.exit(1)
+            if not args.model_type and not args.best_of_all:
+                parser.error("You must specify either --model-type or --best-of-all.")
+                sys.exit(1)
+            supported_model_types = load_supported_model_types(args.config)
+
+            # Validate model types
+            if args.model_type:
+                invalid_models = [
+                    model
+                    for model in args.model_type
+                    if model not in supported_model_types
+                ]
+
+                if invalid_models:
+                    print(
+                        f"Error: Unsupported model type(s): {', '.join(invalid_models)}. "
+                        f"Supported types are: [{', '.join(supported_model_types)}]."
+                    )
+                    exit(1)
 
         # Check if a subcommand was provided
         if args.command is None:
