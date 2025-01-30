@@ -23,7 +23,6 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
   - [Project Structure](#project-structure)
   - [Technologies Used](#technologies-used)
   - [Automated Test Suite Documentation](#automated-test-suite-documentation)
-  - [This makes the reference **clear, professional, and concise** while maintaining readability.](#this-makes-the-reference-clear-professional-and-concise-while-maintaining-readability)
   - [Contributing](#contributing)
   - [License](#license)
   - [Acknowledgements](#acknowledgements)
@@ -201,9 +200,6 @@ In the main `README.md`, update the **Automated Test Suite Documentation** secti
 
 For a detailed overview of the testing framework, including test categories, execution instructions, and coverage reports, refer to the [Test Suite Documentation](tests/README.md). This document provides insights into how the system is validated for robustness, correctness, and reliability across different components.
 
----
-
-This makes the reference **clear, professional, and concise** while maintaining readability.
 ---
 
 ## Contributing  

@@ -125,5 +125,3 @@ To generate a test coverage report:
 ```bash
 PYTHONPATH=$(pwd) pytest --cov=src --cov-report=html
 ```
-- View the HTML report in the generated `htmlcov` directory.
-
