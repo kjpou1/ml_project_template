@@ -1,26 +1,26 @@
 
-# **Sample Apps Documentation**
+# Sample Apps Documentation
 
 This document provides an overview of the prediction services implemented in this project. The system consists of multiple interfaces to handle predictions, including a **Flask web app**, a **FastAPI-based HTML interface**, and a **FastAPI REST API**.
 
 ## **Table of Contents**
-- [**Sample Apps Documentation**](#sample-apps-documentation)
+- [Sample Apps Documentation](#sample-apps-documentation)
   - [**Table of Contents**](#table-of-contents)
-  - [**Overview**](#overview)
-  - [**System Components**](#system-components)
-  - [**Installation \& Setup**](#installation--setup)
-    - [**1. Start the prediction services**](#1-start-the-prediction-services)
-  - [**Usage**](#usage)
-    - [**Flask Web App**](#flask-web-app)
-    - [**FastAPI HTML Interface**](#fastapi-html-interface)
-    - [**FastAPI REST API**](#fastapi-rest-api)
-      - [**Example Request**](#example-request)
-      - [**Example Response**](#example-response)
-  - [**Error Handling**](#error-handling)
+  - [Overview](#overview)
+  - [System Components](#system-components)
+  - [Installation \& Setup](#installation--setup)
+    - [1. Start the prediction services](#1-start-the-prediction-services)
+  - [Usage](#usage)
+    - [Flask Web App](#flask-web-app)
+    - [FastAPI HTML Interface](#fastapi-html-interface)
+    - [FastAPI REST API](#fastapi-rest-api)
+      - [Example Request](#example-request)
+      - [Example Response](#example-response)
+  - [Error Handling](#error-handling)
 
 ---
 
-## **Overview**
+## Overview
 The project includes three different approaches for serving predictions:
 
 1. **Flask Web App (`predict_app.py`)**  
@@ -37,7 +37,7 @@ The project includes three different approaches for serving predictions:
 
 ---
 
-## **System Components**
+## System Components
 | Service | Description | Endpoint |
 |---------|------------|----------|
 | Flask Web App | Traditional web form for making predictions | `/predictdata` |
@@ -46,10 +46,10 @@ The project includes three different approaches for serving predictions:
 
 ---
 
-## **Installation & Setup**
+## Installation & Setup
 To set up and run the prediction services, follow these steps:
 
-### **1. Start the prediction services**
+### 1. Start the prediction services
 - **Flask Web App:**  
   ```bash
   python predict_app.py
@@ -70,23 +70,23 @@ To set up and run the prediction services, follow these steps:
 
 ---
 
-## **Usage**
+## Usage
 
-### **Flask Web App**
+### Flask Web App
 1. Navigate to `http://localhost:8097/`
 2. Enter input data using the form.
 3. Submit the form to get the prediction.
 4. The predicted value will be displayed on the same page.
 
-### **FastAPI HTML Interface**
+### FastAPI HTML Interface
 1. Navigate to `http://localhost:8009/`
 2. Fill in the form fields and submit.
 3. The result will be displayed on a new page.
 
-### **FastAPI REST API**
+### FastAPI REST API
 You can send JSON requests to the `/predict` endpoint.
 
-#### **Example Request**
+#### Example Request
 ```bash
 curl -X POST "http://localhost:8008/predict" \
 -H "Content-Type: application/json" \
@@ -105,7 +105,7 @@ curl -X POST "http://localhost:8008/predict" \
 }'
 ```
 
-#### **Example Response**
+#### Example Response
 ```json
 {
     "code": 0,
@@ -118,7 +118,7 @@ curl -X POST "http://localhost:8008/predict" \
 
 ---
 
-## **Error Handling**
+## Error Handling
 | Error Type | Cause | Example |
 |------------|-------|---------|
 | **Validation Error** | Missing or incorrect data type | `400 Bad Request - Missing required field 'reading_score'` |
