@@ -23,7 +23,6 @@ A scalable and modular template for machine learning projects, featuring CI/CD i
   - [Project Structure](#project-structure)
   - [Technologies Used](#technologies-used)
   - [Automated Test Suite Documentation](#automated-test-suite-documentation)
-  - [For a detailed overview of the testing framework, including test categories, execution instructions, and coverage reports, refer to the Test Suite Documentation. This document provides insights into how the system is validated for robustness, correctness, and reliability across different components.](#for-a-detailed-overview-of-the-testing-framework-including-test-categories-execution-instructions-and-coverage-reports-refer-to-the-test-suite-documentation-this-document-provides-insights-into-how-the-system-is-validated-for-robustness-correctness-and-reliability-across-different-components)
   - [Sample Apps](#sample-apps)
   - [Contributing](#contributing)
   - [License](#license)
@@ -197,7 +196,9 @@ ml_project_template/
 ## Automated Test Suite Documentation  
 
 For a detailed overview of the testing framework, including test categories, execution instructions, and coverage reports, refer to the [Test Suite Documentation](tests/README.md). This document provides insights into how the system is validated for robustness, correctness, and reliability across different components.
+
 ---
+
 ## Sample Apps  
 
 For a comprehensive guide on the available sample applications, including their functionality, usage instructions, and integration details, refer to the [Sample Apps Readme](SAMPLE_APP_README.md). This document provides an in-depth overview of each application, explaining how they interact with the system and facilitate predictions through different interfaces.
